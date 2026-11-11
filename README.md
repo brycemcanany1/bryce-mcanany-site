@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bryce McAnany: Personal Website
 
-## Getting Started
+Built with Next.js, Tailwind CSS, Framer Motion, and React Three Fiber. Hosted on Vercel.
 
-First, run the development server:
+## Where to edit things
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+| What | File |
+| --- | --- |
+| LinkedIn link, site URL, video ID, which photos exist | `src/lib/site.ts` |
+| Home page text | `src/app/page.tsx` and `src/components/HomeHero.tsx` |
+| About story | `src/app/about/page.tsx` |
+| Class projects | `src/app/portfolio/class-projects/page.tsx` |
+| Internship | `src/app/portfolio/internship/page.tsx` |
+| Study abroad pages | `src/app/study-abroad/` |
+| Photos | `public/images/` |
+| Resume | `public/resume.pdf` |
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Photos still needed
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Put these in `public/images/` with these exact names, then set them in `src/lib/site.ts`:
+`headshot.jpg`, `contact.jpg`, `presenting.jpg`, `kos-group.jpg`, `bodrum.jpg`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Vercel environment variables
 
-## Learn More
+| Name | Value |
+| --- | --- |
+| `NEXT_PUBLIC_GA_ID` | GA4 Measurement ID (starts with G-) |
+| `NEXT_PUBLIC_SITE_URL` | Final site address, for example https://bryce-mcanany-site.vercel.app |
+| `NEXT_PUBLIC_GSC_VERIFICATION` | The content value from the Search Console HTML tag |
+| `NEXT_PUBLIC_FORMSPREE_ID` | Formspree form ID for the contact form |
+| `NEXT_PUBLIC_YOUTUBE_ID` | YouTube video ID for the study abroad video |
 
-To learn more about Next.js, take a look at the following resources:
+## Rubric features built in
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+7+ pages with parent/child structure, sitemap.xml, robots.txt, privacy policy, meta descriptions, alt text, clean URLs, keyboard navigation with visible focus, skip link, WCAG AA color contrast, reduced motion support, social share buttons, downloadable resume, and calls to action on every page.
