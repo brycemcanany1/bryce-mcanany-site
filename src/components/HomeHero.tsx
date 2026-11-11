@@ -1,7 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useStill } from "@/components/MotionPref";
 import { BarChart3, Compass, Users } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Typewriter from "@/components/Typewriter";
@@ -19,7 +20,9 @@ const personas = [
 
 export default function HomeHero() {
   const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useStill();
+  const [hovering, setHovering] = useState(false);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -28,10 +31,10 @@ export default function HomeHero() {
 
   // Auto-cycle personas until the visitor picks one.
   useEffect(() => {
-    if (reduce || paused) return;
+    if (reduce || paused || hovering) return;
     const t = setInterval(() => setActive((a) => (a + 1) % personas.length), 6000);
     return () => clearInterval(t);
-  }, [reduce, paused]);
+  }, [reduce, paused, hovering]);
 
   const p = personas[active];
 
@@ -61,18 +64,42 @@ export default function HomeHero() {
 
       <div className="relative z-20 mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-6 pb-24 pt-32">
         {/* Persona picker */}
-        <div role="tablist" aria-label="Choose a side of Bryce" className="mb-10 flex gap-3">
+        <div
+          role="tablist"
+          aria-label="Choose a side of Bryce"
+          className="mb-10 flex gap-3"
+          onMouseEnter={() => setHovering(true)}
+          onMouseLeave={() => setHovering(false)}
+          onFocus={() => setHovering(true)}
+          onBlur={() => setHovering(false)}
+          onKeyDown={(e) => {
+            // Arrow keys move between tabs (standard tab pattern).
+            const dir = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+            if (!dir && e.key !== "Home" && e.key !== "End") return;
+            e.preventDefault();
+            const next =
+              e.key === "Home" ? 0 : e.key === "End" ? personas.length - 1 : (active + dir + personas.length) % personas.length;
+            setActive(next);
+            setPaused(true);
+            tabs.current[next]?.focus();
+          }}
+        >
           {personas.map((x, i) => (
             <button
               key={x.key}
+              ref={(el) => {
+                tabs.current[i] = el;
+              }}
+              id={`tab-${x.key}`}
               role="tab"
+              tabIndex={active === i ? 0 : -1}
               aria-selected={active === i}
               aria-controls="persona-panel"
               onClick={() => {
                 setActive(i);
                 setPaused(true);
               }}
-              className={`group flex flex-col items-center gap-2 rounded-xl border px-4 py-3 transition-colors ${
+              className={`group flex min-w-20 flex-col items-center gap-2 rounded-xl border px-4 py-3 transition-colors ${
                 active === i ? "border-accent bg-accent text-ink" : "border-line bg-ink/60 text-muted hover:text-fg"
               }`}
             >
@@ -87,7 +114,7 @@ export default function HomeHero() {
           <br />
           McAnany
         </h1>
-        <div id="persona-panel" role="tabpanel" aria-live="polite" className="mt-4">
+        <div id="persona-panel" role="tabpanel" aria-labelledby={`tab-${p.key}`} aria-live={paused ? "polite" : "off"} className="mt-4">
           <Typewriter
             key={p.key}
             as="p"

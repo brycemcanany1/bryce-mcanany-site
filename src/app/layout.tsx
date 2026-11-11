@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { MotionProvider } from "@/components/MotionPref";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
+        <MotionProvider>
         <a
           href="#main"
           className="sr-only z-[100] rounded-full bg-accent px-5 py-3 font-semibold text-ink focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
@@ -43,6 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        </MotionProvider>
       </body>
       {gaId && <GoogleAnalytics gaId={gaId} />}
     </html>

@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useStill } from "@/components/MotionPref";
 import { ImageIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 /** Fades content up into view as the visitor scrolls (skipped for reduced motion). */
 export function Reveal({ children, delay = 0, className = "" }: { children: ReactNode; delay?: number; className?: string }) {
-  const reduce = useReducedMotion();
+  const reduce = useStill();
   if (reduce) return <div className={className}>{children}</div>;
   return (
     <motion.div
@@ -147,14 +148,25 @@ export function Section({ children, className = "", id }: { children: ReactNode;
 }
 
 /** Card linking to another page; used for calls to action between pages. */
-export function LinkCard({ href, title, children }: { href: string; title: string; children: ReactNode }) {
+export function LinkCard({
+  href,
+  title,
+  children,
+  level = "h3",
+}: {
+  href: string;
+  title: string;
+  children: ReactNode;
+  level?: "h2" | "h3";
+}) {
+  const H = level;
   return (
     <Link
       href={href}
       className="group flex h-full flex-col justify-between rounded-3xl border border-line bg-surface p-7 transition-colors hover:border-accent"
     >
       <div>
-        <h3 className="text-xl font-semibold">{title}</h3>
+        <H className="text-xl font-semibold">{title}</H>
         <p className="mt-3 leading-relaxed text-muted">{children}</p>
       </div>
       <span className="mt-6 text-sm font-semibold text-accent">

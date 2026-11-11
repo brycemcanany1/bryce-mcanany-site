@@ -24,13 +24,13 @@ export default function Portfolio() {
       <Section>
         <div className="grid gap-6 md:grid-cols-2">
           <Reveal>
-            <LinkCard href="/portfolio/class-projects" title="JMU Class Projects">
+            <LinkCard level="h2" href="/portfolio/class-projects" title="JMU Class Projects">
               Four projects from Marketing Analytics, Consumer Behavior, IMC, and Social Media Marketing, each with
               a short write up on what I did and what I learned.
             </LinkCard>
           </Reveal>
           <Reveal delay={0.1}>
-            <LinkCard href="/portfolio/internship" title="Premium Service Brands Internship">
+            <LinkCard level="h2" href="/portfolio/internship" title="Premium Service Brands Internship">
               GA4 setup across franchise brands, a marketing account audit, a YouTube playbook for owners, and my
               final presentation, From Audit to Action.
             </LinkCard>

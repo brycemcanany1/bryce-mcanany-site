@@ -2,7 +2,8 @@
 
 import { Canvas } from "@react-three/fiber";
 import { Environment, Lightformer } from "@react-three/drei";
-import { useInView, useReducedMotion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useStill } from "@/components/MotionPref";
 import { useRef, type ReactNode } from "react";
 
 /** Studio lighting built in code, so nothing loads from the network. */
@@ -38,7 +39,7 @@ export default function LazyCanvas({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const near = useInView(ref, { margin: "300px" });
-  const reduce = useReducedMotion() ?? false;
+  const reduce = useStill();
   return (
     <div ref={ref} aria-hidden="true" className={className}>
       {near && (

@@ -51,7 +51,7 @@ export default function Home() {
                   understand what their data is telling them.
                 </p>
                 <Link href="/about" className="label mt-8 inline-block border-b-2 border-paper-ink pb-1 hover:opacity-70">
-                  Read my story →
+                  Read my story <span aria-hidden="true">→</span>
                 </Link>
               </Reveal>
             </div>
@@ -95,7 +95,7 @@ export default function Home() {
                   <p className="label text-warm">{c.n}</p>
                   <h3 className="display mt-3 text-3xl">{c.t}</h3>
                   <p className="mt-3 text-muted">{c.d}</p>
-                  <span className="label mt-6 inline-block text-accent">Open →</span>
+                  <span className="label mt-6 inline-block text-accent">Open <span aria-hidden="true">→</span></span>
                 </Link>
               </Reveal>
             ))}
@@ -125,7 +125,7 @@ export default function Home() {
           </div>
           <HomeCrystal />
         </div>
-        <ul className="mt-16 flex gap-5 overflow-x-auto px-6 pb-24 md:px-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))]">
+        <ul tabIndex={0} aria-label="Study abroad photos (scrolls sideways)" className="mt-16 flex gap-5 overflow-x-auto px-6 pb-24 md:px-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))]">
           {trip.map((t) => (
             <li key={t.alt} className="w-64 shrink-0 md:w-72">
               <figure>

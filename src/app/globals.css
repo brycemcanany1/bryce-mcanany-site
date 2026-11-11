@@ -100,5 +100,8 @@ body {
   margin-left: 0.06em;
   vertical-align: -0.05em;
   background: currentColor;
-  animation: blink 1s steps(1) infinite;
+}
+/* Blinks 3 times after typing finishes, then stays solid (under 5 seconds). */
+.type-cursor-blink {
+  animation: blink 1s steps(1) 3;
 }

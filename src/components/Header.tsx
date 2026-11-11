@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { nav } from "@/lib/site";
+import { MotionToggle } from "@/components/MotionPref";
 
 export default function Header() {
   const pathname = usePathname();
@@ -104,6 +105,8 @@ export default function Header() {
           </ul>
         </nav>
 
+        <div className="flex items-center gap-2">
+        <MotionToggle className="hidden sm:inline-flex" />
         <button
           type="button"
           className="rounded-full p-2 lg:hidden"
@@ -114,10 +117,12 @@ export default function Header() {
         >
           {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
+        </div>
       </div>
 
       {open && (
         <nav id="mobile-menu" aria-label="Mobile" className="border-t border-line px-6 pb-6 lg:hidden">
+          <MotionToggle className="mt-4 sm:hidden" />
           <ul className="flex flex-col gap-1 pt-4">
             {nav.map((item) => (
               <li key={item.href}>

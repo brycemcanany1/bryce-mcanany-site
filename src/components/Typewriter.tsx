@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useStill } from "@/components/MotionPref";
 
 /**
- * Types text out letter by letter with a blinking block cursor when it scrolls into view.
- * Screen readers always get the full text right away; reduced motion shows it instantly.
- * Pass several lines to type them one after another.
+ * Types text out letter by letter with a block cursor when it scrolls into view.
+ * Accessibility:
+ *  - Screen readers get the full text immediately from a visually hidden copy.
+ *  - The cursor stays solid while typing and blinks only 3 times after (under 5 seconds, WCAG 2.2.2).
+ *  - With motion paused or reduced, the full text shows instantly.
  */
 export default function Typewriter({
   lines,
@@ -14,7 +17,6 @@ export default function Typewriter({
   startDelay = 150,
   className = "",
   as: Tag = "h2",
-  keepCursor = true,
   id,
 }: {
   lines: string[];
@@ -22,17 +24,16 @@ export default function Typewriter({
   startDelay?: number;
   className?: string;
   as?: "h1" | "h2" | "h3" | "p";
-  keepCursor?: boolean;
   id?: string;
 }) {
   const ref = useRef<HTMLHeadingElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-  const reduce = useReducedMotion();
+  const still = useStill();
   const full = lines.join("\n");
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!inView || reduce) return;
+    if (!inView || still) return;
     setCount(0);
     let i = 0;
     let timer: ReturnType<typeof setTimeout>;
@@ -43,16 +44,17 @@ export default function Typewriter({
     };
     timer = setTimeout(tick, startDelay);
     return () => clearTimeout(timer);
-  }, [inView, reduce, full, speed, startDelay]);
+  }, [inView, still, full, speed, startDelay]);
 
-  const shown = reduce ? full : full.slice(0, count);
+  const shown = still ? full : full.slice(0, count);
   const done = shown.length >= full.length;
   const visibleLines = shown.split("\n");
 
   return (
-    <Tag ref={ref} id={id} className={className} aria-label={lines.join(" ")}>
-      {/* Invisible full text reserves the space so the layout never jumps. */}
+    <Tag ref={ref} id={id} className={className}>
+      <span className="sr-only">{lines.join(" ")}</span>
       <span aria-hidden="true" className="relative block">
+        {/* Invisible full text reserves the space so the layout never jumps. */}
         <span className="invisible block">
           {lines.map((l, i) => (
             <span key={i} className="block">
@@ -65,7 +67,9 @@ export default function Typewriter({
           {visibleLines.map((l, i) => (
             <span key={i} className="block">
               {l}
-              {i === visibleLines.length - 1 && (!done || keepCursor) && <span className="type-cursor" />}
+              {i === visibleLines.length - 1 && (
+                <span className={`type-cursor ${done && !still ? "type-cursor-blink" : ""}`} />
+              )}
             </span>
           ))}
         </span>

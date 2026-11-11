@@ -71,16 +71,14 @@ export default function StudyAbroad() {
             </h2>
           </Reveal>
           <dl className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {stats.map((s, i) => (
-              <Reveal key={s.unit} delay={i * 0.08}>
-                <div className="h-full rounded-3xl border border-line bg-ink p-7">
-                  <dt className="text-sm text-muted">{s.label}</dt>
-                  <dd className="mt-3 flex items-baseline gap-2">
-                    <span className="text-gradient text-6xl font-semibold">{s.value}</span>
-                    <span className="text-lg text-fg">{s.unit}</span>
-                  </dd>
-                </div>
-              </Reveal>
+            {stats.map((s) => (
+              <div key={s.unit} className="h-full rounded-3xl border border-line bg-ink p-7">
+                <dt className="text-sm text-muted">{s.label}</dt>
+                <dd className="mt-3 flex items-baseline gap-2">
+                  <span className="text-gradient text-6xl font-semibold">{s.value}</span>
+                  <span className="text-lg text-fg">{s.unit}</span>
+                </dd>
+              </div>
             ))}
           </dl>
           <Reveal delay={0.2}>

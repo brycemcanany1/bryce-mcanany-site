@@ -1,11 +1,12 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useStill } from "@/components/MotionPref";
 import { useEffect, useState } from "react";
 
 /** Short intro screen on the first visit of a session. Skipped for reduced motion. */
 export default function Loader() {
-  const reduce = useReducedMotion();
+  const reduce = useStill();
   const [show, setShow] = useState(false);
   const [pct, setPct] = useState(0);
 
